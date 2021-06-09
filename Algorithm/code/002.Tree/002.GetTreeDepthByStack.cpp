@@ -1,3 +1,7 @@
+/*
+ * 通过栈模拟深度遍历获取二叉树深度
+ */
+
 #include <bits/stdc++.h>
 #include <gtest/gtest.h>
 using namespace std;
