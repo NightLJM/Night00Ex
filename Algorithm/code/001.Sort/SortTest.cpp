@@ -3,156 +3,34 @@
 #include <vector>
 #include <list>
 #include "gtest/gtest.h"
+#include "001.MySort.h"
 
-
-template<typename SortFun, typename CompFun>
-class SortTestHelper
+TEST(BubbleSortSuit, BubbleSortCase)
 {
-public:
+    std::vector<int> inputVec {5, 3, 2, 6, 7, 8, 10};
+    std::vector<int> expectVec {2, 3, 5, 6, 7, 8, 10};
 
-    SortTestHelper(SortFun sortFun);
-    SortTestHelper(SortFun sortFun, CompFun compFun);
+    std::string inputStr = "afa";
+    std::string expectStr = "aaf";
 
-    void setEqualFun(CompFun equalFun);
-    
-    virtual void autotest();
-protected:
-    template<typename ItemIter>
-    void assertTest(ItemIter inputBeginIter, ItemIter inputEndIter, 
-        ItemIter expectBeginIter, ItemIter expectEndIter);
+    float inputArr[5] = {3.1, 6.2, 4.1, 2, 1};
+    float expectArr[5] = {1, 2, 3.1, 4.1, 6.2};
 
-    template<typename ItemIter>
-    void expectTest(ItemIter inputBeginIter, ItemIter inputEndIter, 
-        ItemIter expectBeginIter, ItemIter expectEndIter);
+    Night00::bubbleSort(inputVec.begin(), inputVec.end(), [](int a, int b) -> bool { return a < b; });
+    Night00::bubbleSort(inputStr.begin(), inputStr.end(), [](char a, char b) -> bool { return a < b; });
+    Night00::bubbleSort(inputArr, inputArr + 5, [](float a, float b) -> bool { return a < b; });
 
-    template<typename ItemIter>
-    bool check(ItemIter actualBeginIter, ItemIter actualEndIter, 
-        ItemIter expectBeginIter, ItemIter expectEndIter);
-private:
-    SortFun m_pSortFun;
-    CompFun m_pCompFun;
-    CompFun m_pEqualFun;
-
-    std::string m_sErrMsg;
-};
-
-template<typename SortFun, typename CompFun>
-SortTestHelper<SortFun, CompFun>::SortTestHelper(SortFun sortFun)
-    : m_pSortFun(sortFun)
-    , m_pCompFun(nullptr)
-    , m_pEqualFun(nullptr)
-{
-
+    EXPECT_TRUE(Night00::isEqual(inputVec.begin(), inputVec.end(), expectVec.begin(), expectVec.end()));
+    EXPECT_TRUE(Night00::isEqual(inputStr.begin(), inputStr.end(), expectStr.begin(), expectStr.end()));
+    EXPECT_TRUE(Night00::isEqual(inputArr, inputArr + 5, expectArr, expectArr + 5));
 }
 
-template<typename SortFun, typename CompFun>
-SortTestHelper<SortFun, CompFun>::SortTestHelper(SortFun sortFun, CompFun compFun)
-    : m_pSortFun(sortFun)
-    , m_pCompFun(compFun)
-    , m_pEqualFun(nullptr)
+int main(int argc, char** argv)
 {
+    testing::InitGoogleTest(&argc, argv);
 
+    return RUN_ALL_TESTS();
 }
-
-template<typename SortFun, typename CompFun>
-void SortTestHelper<SortFun, CompFun>::setEqualFun(CompFun equalFun)
-{
-    m_pEqualFun = equalFun;
-}
-
-template<typename SortFun, typename CompFun>
-void SortTestHelper<SortFun, CompFun>::autotest()
-{
-    int[] inputIntArray1 = {0, 1, 4, 5, 9, 8, 0};
-    int[] expectIntArray1 = {0, 0, 1, 4, 5, 8, 9};
-
-    int[] inputIntArray2 = {};
-    int[] expectIntArray2 = {};
-
-    std::string inputString1 = "7ha81nbg"
-    std::string expectString1 = "178abghn"
-
-    std::vector<std::string> inputVec1= {"123", "456", "876", "867", "abce", "abcd"};
-    std::vector<std::string> expectVec1= {"123", "456", "867", "876", "abcd", "abce"};
-
-    std::cout << "---Array1----" << endl;
-    expectTest(inputIntArray1, inputIntArray1 + 7, expectIntArray1, expectIntArray1 +7);
-    std::cout << "---Array2----" << endl;
-    expectTest(inputIntArray2, inputIntArray2 + 7, expectIntArray2, expectIntArray2 +7);
-    std::cout << "---String1----" << endl;
-    expectTest(inputString1.begin(), inputString1.end(), expectString1.begin(), expectString1.end());
-    std::cout << "---Vector1----" << endl;
-    expectTest(inputVec1.begin(), inputVec1.end(), expectVec1.begin(), expectVec1.end());
-}
-
-template<typename SortFun, typename CompFun>
-template<typename ItemIter>
-void SortTestHelper<SortFun, CompFun>::assertTest(ItemIter inputBeginIter, ItemIter inputEndIter, 
-        ItemIter expectBeginIter, ItemIter expectEndIter)
-{
-    m_pSortFun(inputBeginIter, inputEndIter);
-
-    bool bCheckRet = check(inputBeginIter, inputEndIter, expectBeginIter, expectEndIter);
-    ASSERT_TRUE(bChekRet) << m_sErrMsg;
-}
-
-template<typename SortFun, typename CompFun>
-template<typename ItemIter>
-void SortTestHelper<SortFun, CompFun>::expectTest(ItemIter inputBeginIter, ItemIter inputEndIter, 
-        ItemIter expectBeginIter, ItemIter expectEndIter)
-{
-    m_pSortFun(inputBeginIter, inputEndIter);
-
-    bool bCheckRet = check(inputBeginIter, inputEndIter, expectBeginIter, expectEndIter);
-    EXPECT_TRUE(bChekRet) << m_sErrMsg;
-}
-
-template<typename SortFun, typename CompFun>
-template<typename ItemIter>
-bool SortTestHelper<SortFun, CompFun>::check(ItemIter actualBeginIter, ItemIter actualEndIter, 
-    ItemIter expectBeginIter, ItemIter expectEndIter)
-{
-    bool ret = true;
-
-    auto actualIter = actualBeginIter;
-    auto expectIter = expectBeginIter;
-    int nErrIndex = 0;
-
-    while(actualIter != actualEndIter && expectIter != expectEndIter)
-    {
-        if (m_pEqualFun == nullptr)
-        {
-            ret = ((*actualIter) == (*expectIter)) ?  true : false;
-        }
-        else
-        {
-            ret = (m_pEqualFun(*actualIter, *expectIter) == true) ?  true ：false;
-        }
-        
-        if (ret == false)
-        {
-            break;
-        }
-
-        ++actualIter;
-        ++expectIter;
-        ++nErrIndex;
-    }
-
-    ret = (actualIter != actualEndIter || expectIter != expectEndIter) ?  false : ret;
-
-    if (ret == false)
-    {
-        m_sErrMsg.clear();
-        m_sErrMsg = "Data is error in index" + std::to_string(nErrIndex);
-    }
-
-    return ret;
-}
-
-
-
-
 
 
 
