@@ -26,6 +26,7 @@ void MyTreeWidget::initUI()
     m_pTreeView->setModel(m_pDataModel);
     m_pTreeView->setEditTriggers(QAbstractItemView::DoubleClicked);
     m_pTreeView->header()->setSectionResizeMode(QHeaderView::Stretch);
+    m_pTreeView->expandAll();
     m_pInsertBtn = new QPushButton("Insert", this);
     m_pDelBtn = new QPushButton("Delete", this);
     
@@ -74,4 +75,5 @@ void MyTreeWidget::onDel()
         return;
     }
     m_pDataModel->removeRows(index.row(), 1, index.parent());
+    m_pTreeView->expandAll();
 }

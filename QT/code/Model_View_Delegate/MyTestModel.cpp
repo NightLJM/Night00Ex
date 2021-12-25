@@ -25,6 +25,7 @@ void DataNode::removeChild(int nRow)
         return;
     }
     DataNode* pNode = m_childVec[nRow];
+    rmChild_r(pNode);
     freeAndNil(pNode);
     m_childVec.remove(nRow);
 }
@@ -101,6 +102,26 @@ NodeType DataNode::getNodeType()
     return m_eNodeType;
 }
 
+void DataNode::rmChild_r(DataNode* pNode)
+{
+    if (pNode == nullptr || pNode == this)
+    {
+        return ;
+    }
+    if (pNode->rowCount() == 0)
+    {
+        freeAndNil(pNode);
+    }
+    else
+    {
+        for (auto pChildeNode : pNode->m_childVec)
+        {
+            rmChild_r(pChildeNode);
+        }
+    }
+    
+}
+
 MyTestModel::MyTestModel(QObject* pParent)
 : QAbstractItemModel(pParent), m_pDataSource(nullptr)
 {
@@ -109,7 +130,8 @@ MyTestModel::MyTestModel(QObject* pParent)
 
 MyTestModel::~MyTestModel()
 {
-
+    m_pDataSource->rmChild_r(m_pDataSource);
+    freeAndNil(m_pDataSource);
 }
 
 int MyTestModel::rowCount(const QModelIndex& parent) const
@@ -331,7 +353,7 @@ bool MyTestModel::insertRows(int row, int count, const QModelIndex &parent)
 
 bool MyTestModel::removeRows(int row, int count, const QModelIndex &parent)
 {
-    beginRemoveRows(parent, row, row + count);
+    beginResetModel();
 
     DataNode* pParent = m_pDataSource;
     if (parent.isValid())
@@ -344,7 +366,7 @@ bool MyTestModel::removeRows(int row, int count, const QModelIndex &parent)
     }
 
     removeNodes(row, count, pParent);
-    endRemoveRows();
+    endResetModel();
     return true;
 }
 

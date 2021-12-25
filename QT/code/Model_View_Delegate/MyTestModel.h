@@ -34,6 +34,8 @@ class DataNode
 public:
     DataNode(Data* pData, DataNode* pParent = nullptr);
     ~DataNode();
+    //除了自己，把孩子递归删掉
+    void rmChild_r(DataNode* pNode);
 
     Data* getData();
 
@@ -54,6 +56,7 @@ public:
     bool isChildNode(DataNode* pNode);
     void setNodeType(NodeType eNodeType);
     NodeType getNodeType();
+
 protected:
     NodeType m_eNodeType;
     Data* m_pData;
