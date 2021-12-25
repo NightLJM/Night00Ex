@@ -295,7 +295,13 @@ bool MyTestModel::setData(const QModelIndex& index, const QVariant& value, int r
     default:
         break;
     }
-
+    {   //可能存在CheckState的变化，需要刷新model
+        if (Qt::CheckStateRole == role)
+        {
+            emit dataChanged(createIndex(0, 0, m_pDataSource), createIndex(rowCount() - 1, columnCount() - 1, m_pDataSource));
+        }
+    }
+    
     emit dataChanged(index, index);
     return QAbstractItemModel::setData(index, value, role);
 }
