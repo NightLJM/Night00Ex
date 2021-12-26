@@ -34,8 +34,6 @@ class DataNode
 public:
     DataNode(Data* pData, DataNode* pParent = nullptr);
     ~DataNode();
-    //除了自己，把孩子递归删掉
-    void rmChild_r(DataNode* pNode);
 
     Data* getData();
 

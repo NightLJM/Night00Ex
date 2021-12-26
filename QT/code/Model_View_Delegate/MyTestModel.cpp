@@ -5,6 +5,10 @@ DataNode::DataNode(Data* pData, DataNode* pParent)
 
 DataNode::~DataNode()
 {
+    for(auto pChild : m_childVec)
+    {
+        freeAndNil(m_pData);
+    }
     freeAndNil(m_pData);
 }
 
@@ -25,7 +29,6 @@ void DataNode::removeChild(int nRow)
         return;
     }
     DataNode* pNode = m_childVec[nRow];
-    rmChild_r(pNode);
     freeAndNil(pNode);
     m_childVec.remove(nRow);
 }
@@ -102,26 +105,6 @@ NodeType DataNode::getNodeType()
     return m_eNodeType;
 }
 
-void DataNode::rmChild_r(DataNode* pNode)
-{
-    if (pNode == nullptr || pNode == this)
-    {
-        return ;
-    }
-    if (pNode->rowCount() == 0)
-    {
-        freeAndNil(pNode);
-    }
-    else
-    {
-        for (auto pChildeNode : pNode->m_childVec)
-        {
-            rmChild_r(pChildeNode);
-        }
-    }
-    
-}
-
 MyTestModel::MyTestModel(QObject* pParent)
 : QAbstractItemModel(pParent), m_pDataSource(nullptr)
 {
@@ -130,7 +113,6 @@ MyTestModel::MyTestModel(QObject* pParent)
 
 MyTestModel::~MyTestModel()
 {
-    m_pDataSource->rmChild_r(m_pDataSource);
     freeAndNil(m_pDataSource);
 }
 
