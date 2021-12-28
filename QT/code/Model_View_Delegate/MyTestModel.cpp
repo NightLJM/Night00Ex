@@ -7,7 +7,7 @@ DataNode::~DataNode()
 {
     for(auto pChild : m_childVec)
     {
-        freeAndNil(m_pData);
+        freeAndNil(pChild);
     }
     freeAndNil(m_pData);
 }

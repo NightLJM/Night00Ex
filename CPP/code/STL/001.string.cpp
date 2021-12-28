@@ -28,7 +28,7 @@ int main()
     {
         printSplitLine("1.1");
         istringstream input;
-        input.str("-1,-2,5,6,7");       //"-1,-2,5,6,7" 或 "-1,-2,5,6,7，" 都是一样的
+        input.str("-1,,-2,5,6,7");       //"-1,-2,5,6,7" 或 "-1,-2,5,6,7，" 都是一样的
         vector<string> ret;
         for (string tmpStr; getline(input, tmpStr, ',');)
         {
@@ -37,8 +37,8 @@ int main()
         cout << "ret.size() = " << ret.size() << endl;
         print(ret);
         /*  输出：
-            ret.size() = 5
-            -1 -2 5 6 7 
+            ret.size() = 6
+            -1  -2 5 6 7
         */
     }
 
