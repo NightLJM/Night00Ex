@@ -34,6 +34,7 @@
 *.vscode*
 moc_*
 
+*.cache
 code.deps.json
 code.runtimeconfig.json
 .NETCoreApp,Version=v6.0.AssemblyAttributes.cs
@@ -45,3 +46,4 @@ code.csproj.nuget.dgspec.json
 code.csproj.nuget.g.props
 code.csproj.nuget.g.targets
 project.assets.json
+code.pdb

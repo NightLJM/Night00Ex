@@ -15,14 +15,16 @@ namespace TestSpace
         static void Main(string[] args)
         {
             // {
-            //     //1. s2初始化的时候，会拷一份。   s1修改后s2的值不会跟着变
+            //     //1. string虽然是引用对象，但好像有写时复制的特性
             //     string s1 = new string("s1");
             //     string s2 = s1;
             //     Console.WriteLine(s1);
             //     Console.WriteLine(s2);
+            //     Console.WriteLine("s1 hashCode: {0}; s2 hashCode: {1}", s1.GetHashCode(), s2.GetHashCode());
             //     s1 = "ss1";
             //     Console.WriteLine(s1);
             //     Console.WriteLine(s2);
+            //     Console.WriteLine("s1 hashCode: {0}; s2 hashCode: {1}", s1.GetHashCode(), s2.GetHashCode());
             // }
             // {
             //     //2. t 和 tt指向的是同一个对象 
@@ -34,15 +36,17 @@ namespace TestSpace
             //     Console.WriteLine(t.value);
             //     Console.WriteLine(tt.value);
             // }
+            // {
+            //     //3. ref传引用，out是输出参数；out的初值其实没啥作用，因为它在函数里会被重新赋值。
+            //     int i = 1;
+            //     int j = 2;
+            //     fun(ref i, out j);
+            //     Console.WriteLine(i);
+            //     Console.WriteLine(j);
+            // }
             {
-                //3. ref传引用，out是输出参数；out的初值其实没啥作用，因为它在函数里会被重新赋值。
-                int i = 1;
-                int j = 2;
-                fun(ref i, out j);
-                Console.WriteLine(i);
-                Console.WriteLine(j);
+                
             }
-
 
         }
     }
