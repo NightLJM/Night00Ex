@@ -12,6 +12,11 @@ namespace TestSpace
             j = 1;
         }
 
+        public static (int, int) fun1()
+        {
+            return (1, 2);
+        }
+
         static void Main(string[] args)
         {
             // {
@@ -45,7 +50,9 @@ namespace TestSpace
             //     Console.WriteLine(j);
             // }
             {
-                
+                    (int, int) ret = fun1();
+                    Console.WriteLine(ret.Item1);
+                    Console.WriteLine(ret.Item2);
             }
 
         }
